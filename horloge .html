@@ -1,0 +1,97 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Horloge Numérique</title>
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      background-color: #111;
+      color: #0f0;
+      font-family: 'Courier New', monospace;
+      font-size: 48px;
+    }
+  </style>
+</head>
+<body>
+  <div id="horloge">00:00:00</div>
+
+  <script>
+    function mettreAJourHorloge() {
+      const maintenant = new Date();
+      const heures = String(maintenant.getHours()).padStart(2, '0');
+      const minutes = String(maintenant.getMinutes()).padStart(2, '0');
+      const secondes = String(maintenant.getSeconds()).padStart(2, '0');
+      document.getElementById("horloge").textContent = `${heures}:${minutes}:${secondes}`;
+    }
+
+    setInterval(mettreAJourHorloge, 1000);
+    mettreAJourHorloge(); // pour afficher l'heure tout de suite
+  </script>
+</body>
+</html><style>body {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: #111;
+  color: #0f0;
+  font-family: 'Courier New', monospace;
+  font-size: 48px;
+  flex-direction: column;
+}
+
+#toggleFormat {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #222;
+  color: #0f0;
+  border: 1px solid #0f0;
+  cursor: pointer;
+}
+
+#toggleFormat:hover {
+  background-color: #0f0;
+  color: #111;
+}
+
+.blink {
+  animation: clignote 1s infinite;
+}
+
+@keyframes clignote {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}</style><script>let format24h = true;
+
+function mettreAJourHorloge() {
+  const maintenant = new Date();
+  let heures = maintenant.getHours();
+  const minutes = String(maintenant.getMinutes()).padStart(2, '0');
+  const secondes = String(maintenant.getSeconds()).padStart(2, '0');
+
+  let suffixe = '';
+  if (!format24h) {
+    suffixe = heures >= 12 ? ' PM' : ' AM';
+    heures = heures % 12 || 12;
+  }
+
+  heures = String(heures).padStart(2, '0');
+  const horloge = document.getElementById("horloge");
+
+  // Clignotement des deux-points
+  const separateur = maintenant.getSeconds() % 2 === 0 ? ':' : ' ';
+  horloge.textContent = `${heures}${separateur}${minutes}${separateur}${secondes}${suffixe}`;
+}
+
+document.getElementById("toggleFormat").addEventListener("click", () => {
+  format24h = !format24h;
+  document.getElementById("toggleFormat").textContent = format24h ? "Passer en 12h" : "Passer en 24h";
+});
+
+setInterval(mettreAJourHorloge, 1000);
+mettreAJourHorloge();</script>
